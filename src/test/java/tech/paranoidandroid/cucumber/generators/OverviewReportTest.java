@@ -89,7 +89,7 @@ public class OverviewReportTest {
         OverviewReport report = buildSampleReport();
 
         // then
-        assertThat(report.getScenarios()).isEqualTo(2);
+        assertThat(report.getScenarios()).isEqualTo(3);
     }
 
     @Test
@@ -208,6 +208,7 @@ public class OverviewReportTest {
 
         report.incScenarioFor(Status.PASSED);
         report.incScenarioFor(Status.UNDEFINED);
+        report.incScenarioFor(Status.SKIPPED);
 
         report.incStepsFor(Status.FAILED);
         report.incStepsFor(Status.PENDING);

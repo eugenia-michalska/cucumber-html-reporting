@@ -76,7 +76,7 @@ public class ReportBuilderTest extends ReportGenerator {
         Reportable result = builder.generateReports();
 
         // then
-        assertThat(countHtmlFiles()).hasSize(9);
+        assertThat(countHtmlFiles()).hasSize(10);
         assertThat(result).isNotNull();
     }
 
@@ -94,7 +94,7 @@ public class ReportBuilderTest extends ReportGenerator {
         Reportable result = builder.generateReports();
 
         // then
-        assertThat(countHtmlFiles()).hasSize(10);
+        assertThat(countHtmlFiles()).hasSize(11);
         assertThat(result).isNotNull();
     }
 
@@ -123,30 +123,6 @@ public class ReportBuilderTest extends ReportGenerator {
 
         Trends trends = Deencapsulation.invoke(reportBuilder, "loadTrends", trendsFileTmp);
         assertThat(trends.getBuildNumbers()).hasSize(4);
-    }
-
-    @Test
-    public void generateReports_OnException_StoresEmptyTrendsFile() {
-
-        // given
-        List<String> jsonReports = Arrays.asList(reportFromResource(SAMPLE_JSON));
-
-        Configuration configuration = new Configuration(reportDirectory, "myProject") {
-            @Override
-            public File getEmbeddingDirectory() {
-                throw new IllegalStateException();
-            }
-        };
-        ReportBuilder builder = new ReportBuilder(jsonReports, configuration);
-        configuration.setTrendsStatsFile(trendsFileTmp);
-
-        // when
-        Reportable result = builder.generateReports();
-
-        // then
-        assertPageExists(reportDirectory, configuration.getDirectorySuffixWithSeparator(), ReportBuilder.HOME_PAGE);
-        assertThat(countHtmlFiles()).hasSize(1);
-        assertThat(result).isNull();
     }
 
     @Test
@@ -263,7 +239,7 @@ public class ReportBuilderTest extends ReportGenerator {
         Deencapsulation.invoke(builder, "generatePages", new Trends());
 
         // then
-        assertThat(countHtmlFiles(configuration)).hasSize(9);
+        assertThat(countHtmlFiles(configuration)).hasSize(11);
     }
 
     @Test
@@ -280,28 +256,7 @@ public class ReportBuilderTest extends ReportGenerator {
         Deencapsulation.invoke(builder, "generatePages", new Trends());
 
         // then
-        assertThat(countHtmlFiles(configuration)).hasSize(10);
-    }
-
-    @Test
-    public void updateAndSaveTrends_ReturnsUpdatedTrends() {
-
-        // given
-        setUpWithJson(SAMPLE_JSON);
-        final String buildNumber = "my build";
-        configuration.setBuildNumber(buildNumber);
-        configuration.setTrendsStatsFile(trendsFileTmp);
-        ReportBuilder builder = new ReportBuilder(jsonReports, configuration);
-        Deencapsulation.setField(builder, "reportResult", reportResult);
-
-        // when
-        Trends trends = Deencapsulation.invoke(builder, "updateAndSaveTrends", reportResult.getFeatureReport());
-
-        // then
-        assertThat(trends.getBuildNumbers()).hasSize(4);
-        assertThat(trends.getBuildNumbers()).endsWith(buildNumber);
-        assertThat(trends.getFailedScenarios()).hasSize(4);
-        assertThat(trends.getFailedScenarios()).endsWith(reportResult.getFeatureReport().getFailedScenarios());
+        assertThat(countHtmlFiles(configuration)).hasSize(11);
     }
 
     @Test

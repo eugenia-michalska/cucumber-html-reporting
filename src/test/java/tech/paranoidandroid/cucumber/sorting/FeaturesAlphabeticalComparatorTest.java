@@ -5,11 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Comparator;
 
 import mockit.Deencapsulation;
-import org.junit.Before;
-import org.junit.Test;
-
 import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 import tech.paranoidandroid.cucumber.json.Feature;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)

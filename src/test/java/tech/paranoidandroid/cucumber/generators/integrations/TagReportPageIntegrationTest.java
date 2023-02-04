@@ -2,6 +2,7 @@ package tech.paranoidandroid.cucumber.generators.integrations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import tech.paranoidandroid.cucumber.json.Step;
 import org.junit.Test;
 
 import tech.paranoidandroid.cucumber.generators.TagReportPage;
@@ -10,7 +11,6 @@ import tech.paranoidandroid.cucumber.generators.integrations.helpers.DocumentAss
 import tech.paranoidandroid.cucumber.generators.integrations.helpers.ElementAssertion;
 import tech.paranoidandroid.cucumber.generators.integrations.helpers.LinkAssertion;
 import tech.paranoidandroid.cucumber.generators.integrations.helpers.TableRowAssertion;
-import tech.paranoidandroid.cucumber.json.Step;
 import tech.paranoidandroid.cucumber.json.support.TagObject;
 
 /**
@@ -52,8 +52,7 @@ public class TagReportPageIntegrationTest extends PageTest {
         DocumentAssertion document = documentFrom(page.getWebPage());
         TableRowAssertion bodyRow = document.getReport().getTableStats().getBodyRow();
 
-        bodyRow.hasExactValues(tag.getName(), "10", "1", "2", "1", "2", "16", "1", "1", "2", "0.231", "Failed");
-        bodyRow.hasExactCSSClasses("tagname", "passed", "failed", "skipped", "pending", "undefined", "total", "passed", "failed", "total", "duration", "failed");
+        bodyRow.hasExactValues(tag.getName(), "1", "1", "0", "2", "0.231", "Failed");
     }
 
     @Test

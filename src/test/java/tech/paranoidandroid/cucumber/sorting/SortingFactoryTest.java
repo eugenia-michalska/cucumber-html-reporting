@@ -6,14 +6,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 
 import mockit.Deencapsulation;
+import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
+import tech.paranoidandroid.cucumber.json.Feature;
 import org.junit.Before;
 import org.junit.Test;
 
-import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
-import tech.paranoidandroid.cucumber.json.Feature;
 import tech.paranoidandroid.cucumber.json.support.StepObject;
 import tech.paranoidandroid.cucumber.json.support.TagObject;
-import tech.paranoidandroid.cucumber.ReportGenerator;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)
@@ -22,7 +21,7 @@ public class SortingFactoryTest extends PageTest {
 
     @Before
     public void setUp() {
-        setUpWithJson(ReportGenerator.SAMPLE_JSON);
+        setUpWithJson(SAMPLE_JSON);
     }
 
     @Test
@@ -57,7 +56,7 @@ public class SortingFactoryTest extends PageTest {
         // given
         // INVALID is available only for test profile and the reason of this shadow Enum in test profile is
         // to be able to test default: block which throws an exception for unsupported values
-        SortingFactory sortingFactory = new SortingFactory(SortingMethod.INVALID);
+        SortingFactory sortingFactory = new SortingFactory(SortingMethod.valueOf("INVALID"));
 
         // when & then
         assertThatThrownBy(() -> sortingFactory.sortFeatures(features))
@@ -96,7 +95,7 @@ public class SortingFactoryTest extends PageTest {
     public void sortTags_OnINVALID_ThrowsException() {
 
         // given
-        SortingFactory sortingFactory = new SortingFactory(SortingMethod.INVALID);
+        SortingFactory sortingFactory = new SortingFactory(SortingMethod.valueOf("INVALID"));
 
         // when & then
         assertThatThrownBy(() -> sortingFactory.sortTags(tags))
@@ -139,7 +138,7 @@ public class SortingFactoryTest extends PageTest {
     public void sortSteps_OnINVALID_ThrowsException() {
 
         // given
-        SortingMethod sortingMethod = SortingMethod.INVALID;
+        SortingMethod sortingMethod = SortingMethod.valueOf("INVALID");
         SortingFactory sortingFactory = new SortingFactory(sortingMethod);
 
         // when & then
@@ -163,6 +162,6 @@ public class SortingFactoryTest extends PageTest {
     }
 
     private String buildErrorMessage() {
-        return "Unsupported sorting method: " + SortingMethod.INVALID;
+        return "Unsupported sorting method: " + SortingMethod.valueOf("INVALID");
     }
 }

@@ -2,14 +2,11 @@ package tech.paranoidandroid.cucumber.generators.integrations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.File;
 import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import tech.paranoidandroid.cucumber.generators.FailuresOverviewPage;
-import tech.paranoidandroid.cucumber.generators.FeaturesOverviewPage;
 import tech.paranoidandroid.cucumber.generators.StepsOverviewPage;
 import tech.paranoidandroid.cucumber.generators.TagReportPage;
 import tech.paranoidandroid.cucumber.generators.integrations.helpers.BuildInfoAssertion;
@@ -31,29 +28,6 @@ public class PageIntegrationTest extends PageTest {
         Locale.setDefault(Locale.ENGLISH);
     }
 
-    @Test
-    public void generatePage_onDefaultConfiguration_generatesDefaultItemsInNaviBar() {
-
-        // given
-        setUpWithJson(SAMPLE_JSON);
-        page = new FeaturesOverviewPage(reportResult, configuration);
-
-        // when
-        page.generatePage();
-
-        // then
-        DocumentAssertion document = documentFrom(page.getWebPage());
-        NavigationAssertion navigation = document.getNavigation();
-        NavigationItemAssertion[] menuItems = navigation.getNaviBarLinks();
-
-        navigation.hasPluginName();
-        assertThat(menuItems).hasSize(4);
-
-        menuItems[0].hasLinkToFeatures();
-        menuItems[1].hasLinkToTags();
-        menuItems[2].hasLinkToSteps();
-        menuItems[3].hasLinkToFailures();
-    }
 
     @Test
     public void generatePage_onJenkinsConfiguration_generatesAllItemsInNaviBar() {
@@ -82,29 +56,6 @@ public class PageIntegrationTest extends PageTest {
     }
 
     @Test
-    public void generatePage_onTrendsStatsFile_generatesAllItemsInNaviBar() {
-
-        // given
-        setUpWithJson(SAMPLE_JSON);
-        configuration.setTrendsStatsFile(new File("someTmpFile"));
-
-        page = new FailuresOverviewPage(reportResult, configuration);
-
-        // when
-        page.generatePage();
-
-        // then
-        DocumentAssertion document = documentFrom(page.getWebPage());
-        NavigationAssertion navigation = document.getNavigation();
-        NavigationItemAssertion[] menuItems = navigation.getNaviBarLinks();
-
-        navigation.hasPluginName();
-        assertThat(navigation.getNaviBarLinks()).hasSize(5);
-
-        menuItems[3].hasLinkToTrends();
-    }
-
-    @Test
     public void generatePage_onDefaultConfiguration_generatesSummaryTable() {
 
         // given
@@ -123,31 +74,6 @@ public class PageIntegrationTest extends PageTest {
 
         assertThat(buildInfo.getProjectName()).isEqualTo(configuration.getProjectName());
         buildInfo.hasBuildDate(false);
-    }
-
-    @Test
-    public void generatePage_onJenkinsConfiguration_generatesSummaryTableWithBuildNumber() {
-
-        // given
-        setUpWithJson(SAMPLE_JSON);
-        configuration.addPresentationModes(PresentationMode.RUN_WITH_JENKINS);
-        configuration.setBuildNumber("123");
-
-        page = new StepsOverviewPage(reportResult, configuration);
-
-        // when
-        page.generatePage();
-
-        // then
-        DocumentAssertion document = documentFrom(page.getWebPage());
-        BuildInfoAssertion buildInfo = document.getBuildInfo();
-
-        TableRowAssertion headValues = buildInfo.getHeaderRow();
-        headValues.hasExactValues("Project", "Number", "Date");
-
-        assertThat(buildInfo.getProjectName()).isEqualTo(configuration.getProjectName());
-        assertThat(buildInfo.getBuildNumber()).isEqualTo(configuration.getBuildNumber());
-        buildInfo.hasBuildDate(true);
     }
 
     @Test

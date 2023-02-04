@@ -2,7 +2,6 @@ package tech.paranoidandroid.cucumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -24,6 +23,7 @@ public class EmptyReportableTest {
         assertThat(reportable.getScenarios()).isZero();
         assertThat(reportable.getPassedScenarios()).isZero();
         assertThat(reportable.getFailedScenarios()).isZero();
+        assertThat(reportable.getSkippedScenarios()).isZero();
         assertThat(reportable.getSteps()).isZero();
         assertThat(reportable.getPassedSteps()).isZero();
         assertThat(reportable.getFailedSteps()).isZero();
@@ -33,6 +33,6 @@ public class EmptyReportableTest {
         assertThat(reportable.getUndefinedSteps()).isZero();
         assertThat(reportable.getDuration()).isZero();
         assertThat(reportable.getFormattedDuration()).isNull();
-        Assertions.assertThat(reportable.getStatus()).isNull();
+        assertThat(reportable.getStatus()).isNull();
     }
 }

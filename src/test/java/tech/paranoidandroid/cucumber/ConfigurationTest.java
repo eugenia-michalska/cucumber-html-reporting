@@ -6,17 +6,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
-import tech.paranoidandroid.cucumber.json.support.Status;
 import tech.paranoidandroid.cucumber.presentation.PresentationMode;
 import tech.paranoidandroid.cucumber.reducers.ReducingMethod;
 import tech.paranoidandroid.cucumber.sorting.SortingMethod;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -330,7 +326,7 @@ public class ConfigurationTest {
         configuration.setSortingMethod(sortingMethod);
 
         // then
-        Assertions.assertThat(configuration.getSortingMethod()).isEqualTo(sortingMethod);
+        assertThat(configuration.getSortingMethod()).isEqualTo(sortingMethod);
     }
 
     @Test
@@ -344,7 +340,7 @@ public class ConfigurationTest {
         configuration.addReducingMethod(reducingMethod);
 
         // then
-        Assertions.assertThat(configuration.getReducingMethods()).containsOnly(reducingMethod);
+        assertThat(configuration.getReducingMethods()).containsOnly(reducingMethod);
     }
 
     @Test
@@ -394,36 +390,6 @@ public class ConfigurationTest {
                 ("properties-1.properties"),
                 ("properties-2.properties")
         );
-    }
-
-    @Test
-    public void getNotFailingStatuses_ReturnsNotFailingStatuses() {
-
-        // given
-        Configuration configuration = new Configuration(outputDirectory, projectName);
-        Status notFailingStatus = Status.SKIPPED;
-        configuration.setNotFailingStatuses(Collections.singleton(notFailingStatus));
-
-        // when
-        Set<Status> statuses = configuration.getNotFailingStatuses();
-
-        // then
-        assertThat(statuses).containsExactly(notFailingStatus);
-    }
-
-    @Test
-    public void setNotFailingStatuses_SkipsNullValues() {
-
-        // given
-        Configuration configuration = new Configuration(outputDirectory, projectName);
-        Status notFailingStatus = Status.SKIPPED;
-        configuration.setNotFailingStatuses(Collections.singleton(notFailingStatus));
-
-        // when
-        configuration.setNotFailingStatuses(null);
-
-        // then
-        Assertions.assertThat(configuration.getNotFailingStatuses()).containsExactly(notFailingStatus);
     }
 
     @Test

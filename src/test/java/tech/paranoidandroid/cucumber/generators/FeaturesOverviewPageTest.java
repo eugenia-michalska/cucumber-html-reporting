@@ -2,12 +2,11 @@ package tech.paranoidandroid.cucumber.generators;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import tech.paranoidandroid.cucumber.ReportBuilder;
+import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 import org.apache.velocity.VelocityContext;
 import org.junit.Before;
 import org.junit.Test;
-
-import tech.paranoidandroid.cucumber.ReportBuilder;
-import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)

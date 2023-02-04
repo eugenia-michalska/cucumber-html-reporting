@@ -4,9 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.charset.StandardCharsets;
 
-import org.codehaus.plexus.util.Base64;
-
 import tech.paranoidandroid.cucumber.json.Embedding;
+import org.codehaus.plexus.util.Base64;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)

@@ -7,16 +7,16 @@ import java.io.File;
 import java.util.Properties;
 
 import mockit.Deencapsulation;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.VelocityContext;
-import org.junit.Before;
-import org.junit.Test;
-
 import tech.paranoidandroid.cucumber.ReportBuilder;
 import tech.paranoidandroid.cucumber.Trends;
 import tech.paranoidandroid.cucumber.ValidationException;
 import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 import tech.paranoidandroid.cucumber.generators.integrations.helpers.DocumentAssertion;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.velocity.VelocityContext;
+import org.junit.Before;
+import org.junit.Test;
+
 import tech.paranoidandroid.cucumber.presentation.PresentationMode;
 import tech.paranoidandroid.cucumber.reducers.ReducingMethod;
 import tech.paranoidandroid.cucumber.util.Counter;

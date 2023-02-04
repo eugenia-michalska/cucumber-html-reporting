@@ -2,11 +2,9 @@ package tech.paranoidandroid.cucumber.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 import org.junit.Before;
 import org.junit.Test;
-
-import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
-import tech.paranoidandroid.cucumber.ReportGenerator;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)
@@ -15,7 +13,7 @@ public class RowTest extends PageTest {
 
     @Before
     public void setUp() {
-        setUpWithJson(ReportGenerator.SAMPLE_JSON);
+        setUpWithJson(SAMPLE_JSON);
     }
 
     @Test

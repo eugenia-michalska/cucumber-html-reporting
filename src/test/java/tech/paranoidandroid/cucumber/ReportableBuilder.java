@@ -13,10 +13,13 @@ public class ReportableBuilder implements Reportable {
 
     protected int passedFeatures;
     protected int failedFeatures;
+
+    protected int skippedFeatures;
     protected int totalFeatures;
 
     protected int passedScenarios;
     protected int failedScenarios;
+    protected int skippedScenarios;
     protected int totalScenarios;
 
     protected int passedSteps;
@@ -28,17 +31,19 @@ public class ReportableBuilder implements Reportable {
 
     protected long duration;
 
-    public ReportableBuilder(int passedFeatures, int failedFeatures, int totalFeatures,
-                             int passedScenarios, int failedScenarios, int totalScenarios,
+    public ReportableBuilder(int passedFeatures, int failedFeatures, int skippedFeatures, int totalFeatures,
+                             int passedScenarios, int failedScenarios, int skippedScenarios, int totalScenarios,
                              int passedSteps, int failedSteps, int skippedSteps, int pendingSteps, int undefinedSteps, int totalSteps,
                              long duration) {
 
         this.passedFeatures = passedFeatures;
         this.failedFeatures = failedFeatures;
+        this.skippedFeatures = skippedFeatures;
         this.totalFeatures = totalFeatures;
 
         this.passedScenarios = passedScenarios;
         this.failedScenarios = failedScenarios;
+        this.skippedScenarios = skippedScenarios;
         this.totalScenarios = totalScenarios;
 
         this.passedSteps = passedSteps;
@@ -53,7 +58,7 @@ public class ReportableBuilder implements Reportable {
 
     public static Reportable buildSample() {
         // only prime numbers
-        return new ReportableBuilder(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 3206126182390L);
+        return new ReportableBuilder(2, 1, 2,5, 7, 11, 2, 13, 17, 19, 23, 29, 31, 37, 3206126182390L);
     }
 
     @Override
@@ -72,6 +77,11 @@ public class ReportableBuilder implements Reportable {
     }
 
     @Override
+    public int getSkippedFeatures() {
+        return skippedFeatures;
+    }
+
+    @Override
     public int getFeatures() {
         return totalFeatures;
     }
@@ -84,6 +94,11 @@ public class ReportableBuilder implements Reportable {
     @Override
     public int getFailedScenarios() {
         return failedScenarios;
+    }
+
+    @Override
+    public int getSkippedScenarios() {
+        return skippedScenarios;
     }
 
     @Override

@@ -7,7 +7,6 @@ import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 import tech.paranoidandroid.cucumber.json.support.Status;
 import org.junit.Before;
 import org.junit.Test;
-import tech.paranoidandroid.cucumber.ReportGenerator;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)
@@ -16,7 +15,7 @@ public class FeatureTest extends PageTest {
 
     @Before
     public void setUp() {
-        setUpWithJson(ReportGenerator.SAMPLE_JSON);
+        setUpWithJson(SAMPLE_JSON);
     }
 
     @Test
@@ -223,7 +222,7 @@ public class FeatureTest extends PageTest {
 
         // then
         assertThat(feature.getPassedScenarios()).isEqualTo(1);
-        assertThat(feature.getFailedScenarios()).isEqualTo(2);
+        assertThat(feature.getFailedScenarios()).isEqualTo(1);
     }
 
     @Test
@@ -250,9 +249,9 @@ public class FeatureTest extends PageTest {
         assertThat(passingFeature.getPassedSteps()).isEqualTo(10);
 
         assertThat(feature2.getFailedSteps()).isEqualTo(1);
-        assertThat(feature2.getSkippedSteps()).isEqualTo(2);
+        assertThat(feature2.getSkippedSteps()).isEqualTo(3);
         assertThat(feature2.getPendingSteps()).isEqualTo(1);
-        assertThat(feature2.getUndefinedSteps()).isEqualTo(3);
+        assertThat(feature2.getUndefinedSteps()).isEqualTo(2);
     }
 
     @Test

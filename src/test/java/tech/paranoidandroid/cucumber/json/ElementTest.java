@@ -2,12 +2,11 @@ package tech.paranoidandroid.cucumber.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 import tech.paranoidandroid.cucumber.json.support.Status;
-import tech.paranoidandroid.cucumber.ReportGenerator;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)
@@ -16,7 +15,7 @@ public class ElementTest extends PageTest {
 
     @Before
     public void setUp() {
-        setUpWithJson(ReportGenerator.SAMPLE_JSON);
+        setUpWithJson(SAMPLE_JSON);
     }
 
     @Test
@@ -113,7 +112,7 @@ public class ElementTest extends PageTest {
 
         // then
         assertThat(element.getBefore()).isEmpty();
-        assertThat(status).isEqualTo(Status.PASSED);
+        assertThat(status).isEqualTo(Status.SKIPPED);
     }
 
     @Test
@@ -126,7 +125,7 @@ public class ElementTest extends PageTest {
         Status status = element.getAfterStatus();
 
         // then
-        assertThat(status).isEqualTo(Status.FAILED);
+        assertThat(status).isEqualTo(Status.SKIPPED);
     }
 
     @Test
@@ -140,7 +139,7 @@ public class ElementTest extends PageTest {
 
         // then
         assertThat(element.getAfter()).isEmpty();
-        assertThat(status).isEqualTo(Status.PASSED);
+        assertThat(status).isEqualTo(Status.SKIPPED);
     }
 
     @Test

@@ -6,10 +6,8 @@ import java.util.List;
 
 import tech.paranoidandroid.cucumber.generators.integrations.PageTest;
 import tech.paranoidandroid.cucumber.json.support.Status;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-import tech.paranoidandroid.cucumber.ReportGenerator;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)
@@ -18,7 +16,7 @@ public class StepTest extends PageTest {
 
     @Before
     public void setUp() {
-        setUpWithJson(ReportGenerator.SAMPLE_JSON);
+        setUpWithJson(SAMPLE_JSON);
     }
 
     @Test
@@ -170,7 +168,7 @@ public class StepTest extends PageTest {
     }
 
     @Test
-    public void getResult_OnMissingResult_ReturnsEmptyResult() {
+    public void getResult_OnMissingResult_ReturnsSkippedt() {
 
         // given
         Step step = features.get(1).getElements()[2].getSteps()[0];
@@ -179,7 +177,7 @@ public class StepTest extends PageTest {
         Result result = step.getResult();
 
         // then
-        Assertions.assertThat(result.getStatus()).isEqualTo(Status.UNDEFINED);
+        assertThat(result.getStatus()).isEqualTo(Status.SKIPPED);
         assertThat(result.getDuration()).isZero();
         assertThat(result.getErrorMessage()).isNull();
     }
@@ -236,12 +234,12 @@ public class StepTest extends PageTest {
         Status status = step.getAfterStatus();
 
         // then
-        assertThat(status).isEqualTo(Status.PASSED);
+        assertThat(status).isEqualTo(Status.SKIPPED);
     }
 
 
     @Test
-    public void getBeforeStatus_OnEmptyHooks_ReturnsPassed() {
+    public void getBeforeStatus_OnEmptyHooks_ReturnsSkipped() {
 
         // given
         Step step = features.get(1).getElements()[0].getSteps()[2];
@@ -250,11 +248,11 @@ public class StepTest extends PageTest {
         Status status = step.getBeforeStatus();
 
         // then
-        assertThat(status).isEqualTo(Status.PASSED);
+        assertThat(status).isEqualTo(Status.SKIPPED);
     }
 
     @Test
-    public void getAfterStatus_OnEmptyHooks_ReturnsPassed() {
+    public void getAfterStatus_OnEmptyHooks_ReturnsSkipped() {
 
         // given
         Step step = features.get(1).getElements()[0].getSteps()[2];
@@ -263,7 +261,7 @@ public class StepTest extends PageTest {
         Status status = step.getAfterStatus();
 
         // then
-        assertThat(status).isEqualTo(Status.PASSED);
+        assertThat(status).isEqualTo(Status.SKIPPED);
     }
 
     @Test

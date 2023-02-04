@@ -2,11 +2,9 @@ package tech.paranoidandroid.cucumber.json.support.comparators;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collections;
-
+import tech.paranoidandroid.cucumber.json.support.Resultsable;
 import org.junit.Test;
 
-import tech.paranoidandroid.cucumber.json.support.Resultsable;
 import tech.paranoidandroid.cucumber.json.support.ResultsableBuilder;
 import tech.paranoidandroid.cucumber.json.support.Status;
 import tech.paranoidandroid.cucumber.json.support.StatusCounter;
@@ -17,40 +15,10 @@ import tech.paranoidandroid.cucumber.json.support.StatusCounter;
 public class StatusCounterTest {
 
     @Test
-    public void StatusCounter_OnFailingStatuses_IncrementsPassing() {
+    public void StatusCounter_UndefinedAndPending_count_to_Skipped() {
 
         // given
-        Resultsable[] resultsables = ResultsableBuilder.Resultsable(Status.PASSED, Status.FAILED, Status.SKIPPED);
-
-        // when
-        StatusCounter statusCounter = new StatusCounter(resultsables, Collections.singleton(Status.SKIPPED));
-
-        // then
-        assertThat(statusCounter.getValueFor(Status.PASSED)).isEqualTo(2);
-        assertThat(statusCounter.getValueFor(Status.FAILED)).isOne();
-        assertThat(statusCounter.getValueFor(Status.SKIPPED)).isZero();
-    }
-
-    @Test
-    public void StatusCounter_OnNullFailingStatuses_IncrementsPassing() {
-
-        // given
-        Resultsable[] resultsables = ResultsableBuilder.Resultsable(Status.PASSED, Status.FAILED, Status.SKIPPED);
-
-        // when
-        StatusCounter statusCounter = new StatusCounter(resultsables, null);
-
-        // then
-        assertThat(statusCounter.getValueFor(Status.PASSED)).isOne();
-        assertThat(statusCounter.getValueFor(Status.FAILED)).isOne();
-        assertThat(statusCounter.getValueFor(Status.SKIPPED)).isOne();
-    }
-
-    @Test
-    public void StatusCounter_OnEmptyFailingStatuses_IncrementsPassing() {
-
-        // given
-        Resultsable[] resultsables = ResultsableBuilder.Resultsable(Status.PASSED, Status.FAILED, Status.SKIPPED);
+        Resultsable[] resultsables = ResultsableBuilder.Resultsable(Status.PASSED, Status.FAILED, Status.SKIPPED, Status.UNDEFINED, Status.PENDING);
 
         // when
         StatusCounter statusCounter = new StatusCounter(resultsables);
@@ -58,7 +26,7 @@ public class StatusCounterTest {
         // then
         assertThat(statusCounter.getValueFor(Status.PASSED)).isOne();
         assertThat(statusCounter.getValueFor(Status.FAILED)).isOne();
-        assertThat(statusCounter.getValueFor(Status.SKIPPED)).isOne();
+        assertThat(statusCounter.getValueFor(Status.SKIPPED)).isEqualTo(3);
     }
 
     @Test
@@ -104,7 +72,7 @@ public class StatusCounterTest {
         Status status = statusCounter.getFinalStatus();
 
         // then
-        assertThat(status).isEqualTo(Status.PASSED);
+        assertThat(status).isEqualTo(Status.SKIPPED);
     }
 
     @Test
@@ -122,7 +90,7 @@ public class StatusCounterTest {
     }
 
     @Test
-    public void getFinalStatus_OnDifferentStatuses_ReturnsFailedStatus() {
+    public void getFinalStatus_returnsActualStatus_noFailures() {
 
         // given
         StatusCounter statusCounter = new StatusCounter();
@@ -132,7 +100,7 @@ public class StatusCounterTest {
         statusCounter.incrementFor(Status.UNDEFINED);
 
         // then
-        assertThat(statusCounter.getFinalStatus()).isEqualTo(Status.FAILED);
+        assertThat(statusCounter.getFinalStatus()).isEqualTo(Status.UNDEFINED);
     }
 
     @Test
@@ -144,6 +112,8 @@ public class StatusCounterTest {
         // when
         statusCounter.incrementFor(Status.PASSED);
         statusCounter.incrementFor(Status.FAILED);
+        statusCounter.incrementFor(Status.PASSED);
+        statusCounter.incrementFor(Status.SKIPPED);
 
         // then
         assertThat(statusCounter.getFinalStatus()).isEqualTo(Status.FAILED);

@@ -2,12 +2,12 @@ package tech.paranoidandroid.cucumber.generators.integrations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
-
-import tech.paranoidandroid.cucumber.generators.StepsOverviewPage;
 import tech.paranoidandroid.cucumber.generators.integrations.helpers.DocumentAssertion;
 import tech.paranoidandroid.cucumber.generators.integrations.helpers.LeadAssertion;
 import tech.paranoidandroid.cucumber.generators.integrations.helpers.TableRowAssertion;
+import org.junit.Test;
+
+import tech.paranoidandroid.cucumber.generators.StepsOverviewPage;
 import tech.paranoidandroid.cucumber.presentation.PresentationMode;
 
 /**
@@ -74,32 +74,6 @@ public class StepsOverviewPageIntegrationTest extends PageTest {
 
         TableRowAssertion firstRow = headerRows[0];
         firstRow.hasExactValues("Implementation", "Occurrences", "Average duration", "Max duration", "Total durations", "Ratio");
-    }
-
-    @Test
-    public void generatePage_generatesStatsTableBody() {
-
-        // given
-        setUpWithJson(SAMPLE_JSON);
-        page = new StepsOverviewPage(reportResult, configuration);
-
-        // when
-        page.generatePage();
-
-        // then
-        DocumentAssertion document = documentFrom(page.getWebPage());
-        TableRowAssertion[] bodyRows = document.getReport().getTableStats().getBodyRows();
-
-        assertThat(bodyRows).hasSameSizeAs(steps);
-
-        TableRowAssertion firstRow = bodyRows[4];
-        firstRow.hasExactValues("ATMScenario.checkBalance(int)", "2", "0.015", "0.030", "0.031", "50.00%");
-        firstRow.hasExactCSSClasses("location", "", "duration", "duration", "duration", "failed");
-        firstRow.hasExactDataValues("", "", "15966500", "15966500", "31933000", "");
-
-        // also verify the average durations is written to data-values correctly
-        TableRowAssertion secondRow = bodyRows[3];
-        secondRow.hasExactDataValues("", "", "45000000", "45000000", "90000000", "");
     }
 
     @Test

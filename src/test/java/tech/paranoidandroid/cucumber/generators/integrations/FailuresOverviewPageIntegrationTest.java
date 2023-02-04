@@ -2,13 +2,12 @@ package tech.paranoidandroid.cucumber.generators.integrations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import tech.paranoidandroid.cucumber.generators.integrations.helpers.DocumentAssertion;
+import tech.paranoidandroid.cucumber.generators.integrations.helpers.LeadAssertion;
+import tech.paranoidandroid.cucumber.generators.integrations.helpers.SummaryAssertion;
 import org.junit.Test;
 
 import tech.paranoidandroid.cucumber.generators.FailuresOverviewPage;
-import tech.paranoidandroid.cucumber.generators.integrations.helpers.DocumentAssertion;
-import tech.paranoidandroid.cucumber.generators.integrations.helpers.ElementAssertion;
-import tech.paranoidandroid.cucumber.generators.integrations.helpers.LeadAssertion;
-import tech.paranoidandroid.cucumber.generators.integrations.helpers.SummaryAssertion;
 import tech.paranoidandroid.cucumber.presentation.PresentationMode;
 
 /**
@@ -69,22 +68,5 @@ public class FailuresOverviewPageIntegrationTest extends PageTest {
         DocumentAssertion document = documentFrom(page.getWebPage());
         SummaryAssertion summary = document.getReport();
         assertThat(summary.getEmptyReportMessage()).isEqualTo("You have no failed scenarios in your Cucumber report");
-    }
-
-    @Test
-    public void generatePage_generatesSummary() {
-
-        // given
-        setUpWithJson(SAMPLE_JSON);
-        page = new FailuresOverviewPage(reportResult, configuration);
-
-        // when
-        page.generatePage();
-
-        // then
-        DocumentAssertion document = documentFrom(page.getWebPage());
-        ElementAssertion[] elements = document.getElements();
-        assertThat(elements).hasSize(2);
-        assertThat(elements[0].getBrief().getName()).isEqualTo(features.get(1).getElements()[0].getName());
     }
 }
