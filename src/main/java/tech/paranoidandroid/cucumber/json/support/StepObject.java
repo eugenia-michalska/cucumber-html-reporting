@@ -1,9 +1,8 @@
 package tech.paranoidandroid.cucumber.json.support;
 
-import org.apache.commons.lang.StringUtils;
-
 import tech.paranoidandroid.cucumber.ValidationException;
 import tech.paranoidandroid.cucumber.util.Util;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Keeps information about steps statistics.
@@ -87,7 +86,7 @@ public class StepObject {
         for (Status status : Status.values()) {
             total += this.statusCounter.getValueFor(status);
         }
-        return Util.formatAsPercentage(this.statusCounter.getValueFor(Status.PASSED), total);
+        return Util.formatAsPercentage(this.statusCounter.getValueFor(Status.PASSED), total - this.statusCounter.getValueFor(Status.SKIPPED));
     }
 
     public Status getStatus() {

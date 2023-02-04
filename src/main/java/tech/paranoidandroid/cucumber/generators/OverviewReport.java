@@ -1,8 +1,8 @@
 package tech.paranoidandroid.cucumber.generators;
 
+import tech.paranoidandroid.cucumber.Reportable;
 import org.apache.commons.lang.NotImplementedException;
 
-import tech.paranoidandroid.cucumber.Reportable;
 import tech.paranoidandroid.cucumber.json.support.Status;
 import tech.paranoidandroid.cucumber.json.support.StatusCounter;
 import tech.paranoidandroid.cucumber.util.Util;
@@ -34,6 +34,11 @@ public class OverviewReport implements Reportable {
         return featuresCounter.getValueFor(Status.FAILED);
     }
 
+    @Override
+    public int getSkippedFeatures() {
+        return featuresCounter.getValueFor(Status.SKIPPED);
+    }
+
     public void incScenarioFor(Status status) {
         this.scenariosCounter.incrementFor(status);
     }
@@ -51,6 +56,11 @@ public class OverviewReport implements Reportable {
     @Override
     public int getFailedScenarios() {
         return scenariosCounter.getValueFor(Status.FAILED);
+    }
+
+    @Override
+    public int getSkippedScenarios() {
+        return scenariosCounter.getValueFor(Status.SKIPPED);
     }
 
     public void incStepsFor(Status status) {

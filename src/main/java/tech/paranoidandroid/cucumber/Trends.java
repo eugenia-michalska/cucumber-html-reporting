@@ -15,10 +15,13 @@ public class Trends {
 
     private int[] passedFeatures = new int[0];
     private int[] failedFeatures = new int[0];
+
+    private int[] skippedFeatures = new int[0];
     private int[] totalFeatures = new int[0];
 
     private int[] passedScenarios = new int[0];
     private int[] failedScenarios = new int[0];
+    private int[] skippedScenarios = new int[0];
     private int[] totalScenarios = new int[0];
 
     private int[] passedSteps = new int[0];
@@ -42,6 +45,10 @@ public class Trends {
         return passedFeatures;
     }
 
+    public int[] getSkippedFeatures() {
+        return skippedFeatures;
+    }
+
     public int[] getTotalFeatures() {
         return totalFeatures;
     }
@@ -52,6 +59,10 @@ public class Trends {
 
     public int[] getFailedScenarios() {
         return failedScenarios;
+    }
+
+    public int[] getSkippedScenarios() {
+        return skippedScenarios;
     }
 
     public int[] getTotalScenarios() {
@@ -97,10 +108,13 @@ public class Trends {
 
         passedFeatures = ArrayUtils.add(passedFeatures, reportable.getPassedFeatures());
         failedFeatures = ArrayUtils.add(failedFeatures, reportable.getFailedFeatures());
+        skippedFeatures = ArrayUtils.add(failedFeatures, reportable.getSkippedFeatures());
+
         totalFeatures = ArrayUtils.add(totalFeatures, reportable.getFeatures());
 
         passedScenarios = ArrayUtils.add(passedScenarios, reportable.getPassedScenarios());
         failedScenarios = ArrayUtils.add(failedScenarios, reportable.getFailedScenarios());
+        skippedScenarios = ArrayUtils.add(skippedScenarios, reportable.getSkippedScenarios());
         totalScenarios = ArrayUtils.add(totalScenarios, reportable.getScenarios());
 
         passedSteps = ArrayUtils.add(passedSteps, reportable.getPassedSteps());
@@ -133,10 +147,12 @@ public class Trends {
 
         passedFeatures = copyLastElements(passedFeatures, limit);
         failedFeatures = copyLastElements(failedFeatures, limit);
+        skippedFeatures = copyLastElements(skippedFeatures, limit);
         totalFeatures = copyLastElements(totalFeatures, limit);
 
         passedScenarios = copyLastElements(passedScenarios, limit);
         failedScenarios = copyLastElements(failedScenarios, limit);
+        skippedScenarios = copyLastElements(skippedScenarios, limit);
         totalScenarios = copyLastElements(totalScenarios, limit);
 
         passedSteps = copyLastElements(passedSteps, limit);

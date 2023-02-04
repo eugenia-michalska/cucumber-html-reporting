@@ -2,10 +2,10 @@ package tech.paranoidandroid.cucumber.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tech.paranoidandroid.cucumber.json.support.Resultsable;
 import org.apache.commons.lang.StringUtils;
 
 import tech.paranoidandroid.cucumber.json.deserializers.OutputsDeserializer;
-import tech.paranoidandroid.cucumber.json.support.Resultsable;
 
 public class Hook implements Resultsable {
 

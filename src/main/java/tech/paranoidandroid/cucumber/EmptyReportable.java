@@ -28,7 +28,10 @@ public class EmptyReportable implements Reportable {
     public int getFailedFeatures() {
         return 0;
     }
-
+    @Override
+    public int getSkippedFeatures() {
+        return 0;
+    }
     @Override
     public int getScenarios() {
         return 0;
@@ -41,6 +44,10 @@ public class EmptyReportable implements Reportable {
 
     @Override
     public int getFailedScenarios() {
+        return 0;
+    }
+    @Override
+    public int getSkippedScenarios() {
         return 0;
     }
 

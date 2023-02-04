@@ -10,9 +10,9 @@ public class Result implements Durationable {
 
     // Start: attributes from JSON file report
 
-    // by default set UNDEFINED status
+    // by default set SKIPPED status
     // for all cases where Result is not present or completed
-    private final Status status = Status.UNDEFINED;
+    private final Status status = Status.SKIPPED;
     @JsonProperty("error_message")
     private final String errorMessage = null;
     private final Long duration = 0L;

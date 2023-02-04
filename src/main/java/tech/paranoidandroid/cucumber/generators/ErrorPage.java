@@ -2,11 +2,10 @@ package tech.paranoidandroid.cucumber.generators;
 
 import java.util.List;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
-
 import tech.paranoidandroid.cucumber.Configuration;
 import tech.paranoidandroid.cucumber.ReportBuilder;
 import tech.paranoidandroid.cucumber.ReportResult;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class ErrorPage extends AbstractPage {
 

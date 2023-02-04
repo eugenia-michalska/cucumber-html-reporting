@@ -2,9 +2,8 @@ package tech.paranoidandroid.cucumber.sorting;
 
 import java.util.Comparator;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 import tech.paranoidandroid.cucumber.json.Feature;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)

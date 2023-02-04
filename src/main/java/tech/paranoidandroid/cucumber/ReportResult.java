@@ -37,6 +37,7 @@ public class ReportResult {
     private final ReportFeatureMergerFactory mergerFactory = new ReportFeatureMergerFactory();
 
     private final OverviewReport featuresReport = new OverviewReport();
+
     private final OverviewReport tagsReport = new OverviewReport();
 
     public ReportResult(List<Feature> features, Configuration configuration) {
@@ -46,7 +47,7 @@ public class ReportResult {
         List<Feature> mergedFeatures = mergerFactory.get(configuration.getReducingMethods()).merge(features);
 
         for (int i = 0; i < mergedFeatures.size(); i++) {
-            mergedFeatures.get(i).setMetaData(i, configuration);
+            mergedFeatures.get(i).setMetaData(i);
             processFeature(mergedFeatures.get(i));
         }
     }
@@ -77,6 +78,7 @@ public class ReportResult {
 
     private void processFeature(Feature feature) {
         allFeatures.add(feature);
+
 
         for (Element element : feature.getElements()) {
             if (element.isScenario()) {

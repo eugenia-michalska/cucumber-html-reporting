@@ -3,15 +3,14 @@ package tech.paranoidandroid.cucumber.json.support;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.NotImplementedException;
-import org.apache.commons.lang.StringUtils;
-
 import tech.paranoidandroid.cucumber.Reportable;
 import tech.paranoidandroid.cucumber.ValidationException;
 import tech.paranoidandroid.cucumber.json.Element;
 import tech.paranoidandroid.cucumber.json.Step;
 import tech.paranoidandroid.cucumber.json.Tag;
 import tech.paranoidandroid.cucumber.util.Util;
+import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang.StringUtils;
 
 public class TagObject implements Reportable {
 
@@ -49,8 +48,8 @@ public class TagObject implements Reportable {
     public boolean addElement(Element element) {
         elements.add(element);
 
-        if (status != Status.FAILED && element.getStatus() != Status.PASSED) {
-            status = Status.FAILED;
+        if (status != Status.FAILED) {
+            status = element.getStatus();
         }
 
         if (element.isScenario()) {
@@ -87,6 +86,11 @@ public class TagObject implements Reportable {
     }
 
     @Override
+    public int getSkippedFeatures() {
+        throw new NotImplementedException();
+    }
+
+    @Override
     public int getScenarios() {
         return scenarioCounter;
     }
@@ -99,6 +103,11 @@ public class TagObject implements Reportable {
     @Override
     public int getFailedScenarios() {
         return elementsStatusCounter.getValueFor(Status.FAILED);
+    }
+
+    @Override
+    public int getSkippedScenarios() {
+        return elementsStatusCounter.getValueFor(Status.SKIPPED);
     }
 
     @Override

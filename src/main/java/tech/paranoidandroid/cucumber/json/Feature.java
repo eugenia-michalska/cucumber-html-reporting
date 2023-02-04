@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import tech.paranoidandroid.cucumber.Configuration;
 import tech.paranoidandroid.cucumber.Reportable;
 import tech.paranoidandroid.cucumber.json.deserializers.TagsDeserializer;
 import tech.paranoidandroid.cucumber.json.support.Durationable;
@@ -125,6 +124,11 @@ public class Feature implements Reportable, Durationable {
     }
 
     @Override
+    public int getSkippedFeatures() {
+        return getStatus().isPassed() ? 1 : 0;
+    }
+
+    @Override
     public int getScenarios() {
         return scenarios.size();
     }
@@ -179,15 +183,19 @@ public class Feature implements Reportable, Durationable {
         return elementsCounter.getValueFor(Status.FAILED);
     }
 
+    @Override
+    public int getSkippedScenarios() {
+        return elementsCounter.getValueFor(Status.SKIPPED);
+    }
+
     /**
      * Sets additional information and calculates values which should be calculated during object creation.
      *
-     * @param jsonFileNo    index of the JSON file
-     * @param configuration configuration for the report
+     * @param jsonFileNo index of the JSON file
      */
-    public void setMetaData(int jsonFileNo, Configuration configuration) {
+    public void setMetaData(int jsonFileNo) {
         for (Element element : elements) {
-            element.setMetaData(this, configuration);
+            element.setMetaData(this);
 
             if (element.isScenario()) {
                 scenarios.add(element);
@@ -220,10 +228,19 @@ public class Feature implements Reportable, Durationable {
 
     private Status calculateFeatureStatus() {
         StatusCounter statusCounter = new StatusCounter();
+
         for (Element element : elements) {
-            statusCounter.incrementFor(element.getStatus());
+            if (element.isScenario()) {
+                statusCounter.incrementFor(element.getStatus());
+            }
         }
-        return statusCounter.getFinalStatus();
+
+        if (statusCounter.getValueFor(Status.FAILED) == 0 && statusCounter.getValueFor(Status.SKIPPED) > statusCounter.getValueFor(Status.PASSED)) {
+            featureStatus = Status.SKIPPED;
+        } else
+            featureStatus = statusCounter.getFinalStatus();
+
+        return featureStatus;
     }
 
     private void calculateSteps() {

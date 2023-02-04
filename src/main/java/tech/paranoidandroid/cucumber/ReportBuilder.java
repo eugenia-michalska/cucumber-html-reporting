@@ -18,14 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import tech.paranoidandroid.cucumber.generators.ErrorPage;
-import tech.paranoidandroid.cucumber.generators.FailuresOverviewPage;
-import tech.paranoidandroid.cucumber.generators.FeatureReportPage;
-import tech.paranoidandroid.cucumber.generators.FeaturesOverviewPage;
-import tech.paranoidandroid.cucumber.generators.StepsOverviewPage;
-import tech.paranoidandroid.cucumber.generators.TagReportPage;
-import tech.paranoidandroid.cucumber.generators.TagsOverviewPage;
-import tech.paranoidandroid.cucumber.generators.TrendsOverviewPage;
+import tech.paranoidandroid.cucumber.generators.*;
 import tech.paranoidandroid.cucumber.json.Feature;
 import tech.paranoidandroid.cucumber.json.support.TagObject;
 import org.apache.commons.io.FileUtils;
@@ -200,6 +193,7 @@ public class ReportBuilder {
 
         new StepsOverviewPage(reportResult, configuration).generatePage();
         new FailuresOverviewPage(reportResult, configuration).generatePage();
+        new SkippedOverviewPage(reportResult, configuration).generatePage();
 
         if (configuration.isTrendsAvailable()) {
             new TrendsOverviewPage(reportResult, configuration, trends).generatePage();

@@ -4,16 +4,12 @@ import java.io.File;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import tech.paranoidandroid.cucumber.json.Step;
-import tech.paranoidandroid.cucumber.json.support.Status;
 import tech.paranoidandroid.cucumber.presentation.PresentationMode;
 import tech.paranoidandroid.cucumber.reducers.ReducingMethod;
 import tech.paranoidandroid.cucumber.sorting.SortingMethod;
@@ -40,8 +36,6 @@ public class Configuration {
 
     private List<PresentationMode> presentationModes = new ArrayList<>();
     private List<String> classificationFiles;
-
-    private Set<Status> notFailingStatuses = Collections.emptySet();
 
     private Map<String, String> qualifiers = new HashMap<>();
 
@@ -305,25 +299,6 @@ public class Configuration {
      */
     public List<String> getClassificationFiles() {
         return this.classificationFiles;
-    }
-
-    /**
-     * @return statuses which do not fail scenario.
-     */
-    public Set<Status> getNotFailingStatuses() {
-        return notFailingStatuses;
-    }
-
-    /**
-     * Sets {@link Status statuses}
-     * of {@link Step steps} which should not fail the scenario.
-     *
-     * @param notFailingStatuses not failing statusses
-     */
-    public void setNotFailingStatuses(Set<Status> notFailingStatuses) {
-        if (notFailingStatuses != null) {
-            this.notFailingStatuses = notFailingStatuses;
-        }
     }
 
     /**

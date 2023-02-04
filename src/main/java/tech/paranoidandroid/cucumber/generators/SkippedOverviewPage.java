@@ -9,12 +9,12 @@ import tech.paranoidandroid.cucumber.json.Element;
 import tech.paranoidandroid.cucumber.json.Feature;
 import tech.paranoidandroid.cucumber.json.support.Status;
 
-public class FailuresOverviewPage extends AbstractPage {
+public class SkippedOverviewPage extends AbstractPage {
 
-    public static final String WEB_PAGE = "overview-failures.html";
+    public static final String WEB_PAGE = "overview-skipped.html";
 
-    public FailuresOverviewPage(ReportResult reportResult, Configuration configuration) {
-        super(reportResult, "overviewFailures.vm", configuration);
+    public SkippedOverviewPage(ReportResult reportResult, Configuration configuration) {
+        super(reportResult, "overviewSkipped.vm", configuration);
     }
 
     @Override
@@ -24,23 +24,20 @@ public class FailuresOverviewPage extends AbstractPage {
 
     @Override
     public void prepareReport() {
-        context.put("failures", collectFailures());
+        context.put("skipped", collectSkipped());
     }
 
-    private List<Element> collectFailures() {
-        List<Element> failures = new ArrayList<>();
+    private List<Element> collectSkipped() {
+        List<Element> skipped = new ArrayList<>();
         for (Feature feature : reportResult.getAllFeatures()) {
-            if (feature.getStatus().isPassed()) {
-                continue;
-            }
 
             for (Element element : feature.getElements()) {
 
-                if (element.getStatus() == Status.FAILED) {
-                    failures.add(element);
+                if (element.getStatus() == Status.SKIPPED) {
+                    skipped.add(element);
                 }
             }
         }
-        return failures;
+        return skipped;
     }
 }

@@ -29,6 +29,8 @@ public interface Reportable {
      */
     int getFailedFeatures();
 
+    int getSkippedFeatures();
+
     /**
      * @return number of scenarios for this element.
      */
@@ -43,6 +45,8 @@ public interface Reportable {
      * @return number of failed scenarios for this element.
      */
     int getFailedScenarios();
+
+    int getSkippedScenarios();
 
     /**
      * @return number of all steps for this element.

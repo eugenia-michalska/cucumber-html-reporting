@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import tech.paranoidandroid.cucumber.Configuration;
 import tech.paranoidandroid.cucumber.json.deserializers.TagsDeserializer;
 import tech.paranoidandroid.cucumber.json.support.Durationable;
 import tech.paranoidandroid.cucumber.json.support.Status;
@@ -131,16 +130,16 @@ public class Element implements Durationable {
         return Util.formatDuration(duration);
     }
 
-    public void setMetaData(Feature feature, Configuration configuration) {
+    public void setMetaData(Feature feature) {
         this.feature = feature;
 
         for (Step step : steps) {
             step.setMetaData();
         }
 
-        beforeStatus = new StatusCounter(before, configuration.getNotFailingStatuses()).getFinalStatus();
-        afterStatus = new StatusCounter(after, configuration.getNotFailingStatuses()).getFinalStatus();
-        stepsStatus = new StatusCounter(steps, configuration.getNotFailingStatuses()).getFinalStatus();
+        beforeStatus = new StatusCounter(before).getFinalStatus();
+        afterStatus = new StatusCounter(after).getFinalStatus();
+        stepsStatus = new StatusCounter(steps).getFinalStatus();
         elementStatus = calculateElementStatus();
 
         calculateDuration();
@@ -148,9 +147,10 @@ public class Element implements Durationable {
 
     private Status calculateElementStatus() {
         StatusCounter statusCounter = new StatusCounter();
-        statusCounter.incrementFor(stepsStatus);
         statusCounter.incrementFor(beforeStatus);
         statusCounter.incrementFor(afterStatus);
+        statusCounter.incrementFor(stepsStatus);
+
         return statusCounter.getFinalStatus();
     }
 

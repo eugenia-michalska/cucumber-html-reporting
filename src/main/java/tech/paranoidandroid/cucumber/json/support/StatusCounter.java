@@ -1,37 +1,33 @@
 package tech.paranoidandroid.cucumber.json.support;
 
-import java.util.Collections;
 import java.util.EnumMap;
-import java.util.Set;
 
 /**
  * Keeps information about statuses occurrence.
- * 
- * @author Damian Szczepanik (damianszczepanik@github)
  *
+ * @author Damian Szczepanik (damianszczepanik@github)
  */
 public class StatusCounter {
 
     private EnumMap<Status, Integer> counter = new EnumMap<>(Status.class);
 
     /**
-     * Is equal to {@link Status#FAILED} when at least counted status is not {@link Status#PASSED},
-     * otherwise set to {@link Status#PASSED}.
+     * Initialized with {@link Status#SKIPPED}. Once {@link Status#FAILED} is reached, the finalStatus will not update.
+     * Updates to {@link Status#UNDEFINED} and {@link Status#PENDING} are calculated into {@link Status#SKIPPED}
      */
-    private Status finalStatus = Status.PASSED;
+
+    private Status finalStatus = Status.SKIPPED;
 
     private int size = 0;
 
     public StatusCounter(Resultsable[] resultsables) {
-        this(resultsables, Collections.emptySet());
-    }
-
-    public StatusCounter(Resultsable[] resultsables, Set<Status> notFailingStatuses) {
         this();
         for (Resultsable resultsable : resultsables) {
             Status status = resultsable.getResult().getStatus();
-            if (notFailingStatuses != null && notFailingStatuses.contains(status)) {
-                incrementFor(Status.PASSED);
+
+            if (status == Status.UNDEFINED || status == Status.PENDING) {
+                incrementFor(Status.SKIPPED);
+
             } else {
                 incrementFor(status);
             }
@@ -47,17 +43,15 @@ public class StatusCounter {
     /**
      * Increments finalStatus counter by single value.
      *
-     * @param status
-     *            finalStatus for which the counter should be incremented.
+     * @param status finalStatus for which the counter should be incremented.
      */
     public void incrementFor(Status status) {
         final int statusCounter = getValueFor(status) + 1;
         this.counter.put(status, statusCounter);
         size++;
 
-        if (finalStatus == Status.PASSED && status != Status.PASSED) {
-            finalStatus = Status.FAILED;
-        }
+        if (finalStatus != Status.FAILED)
+            finalStatus = status;
     }
 
     /**

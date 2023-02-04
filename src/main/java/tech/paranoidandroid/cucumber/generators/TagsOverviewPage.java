@@ -29,7 +29,6 @@ public class TagsOverviewPage extends AbstractPage {
         List<TagObject> tags = reportResult.getAllTags();
         context.put("all_tags", tags);
         context.put("report_summary", reportResult.getTagReport());
-
         context.put("chart_categories", generateTagLabels(tags));
         context.put("chart_data", generateTagValues(tags));
     }
