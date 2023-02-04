@@ -3,7 +3,7 @@
     <groupId>tech.paranoidandroid</groupId>
     <artifactId>cucumber-html-reporting</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>cucumber-html-reporting</name>
     <url>https://github.com/eugenia-michalska/cucumber-html-reporting</url>
 

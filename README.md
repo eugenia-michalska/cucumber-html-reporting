@@ -33,7 +33,7 @@ Add a maven dependency to your pom
 <dependency>
    <groupId>tech.paranoidandroid</groupId>
    <artifactId>cucumber-html-reporting</artifactId>
-   <version>1.0.0</version>
+   <version>1.0.1</version>
    <scope>test</scope>
 </dependency>
 ```
