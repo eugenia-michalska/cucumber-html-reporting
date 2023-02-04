@@ -1,16 +1,18 @@
-[![Github build](https://github.com/damianszczepanik/cucumber-reporting/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/damianszczepanik/cucumber-reporting/actions/workflows/build.yml)
-[![AppVeyor Status](https://img.shields.io/appveyor/ci/damianszczepanik/cucumber-reporting/master.svg?label=AppVeyor%20build)](https://ci.appveyor.com/project/damianszczepanik/cucumber-reporting/history)
-[![Live Demo](https://img.shields.io/badge/Online%20demo-published-blue.svg)](http://damianszczepanik.github.io/cucumber-html-reports/overview-features.html)
 
-[![Coverage Status](https://codecov.io/gh/damianszczepanik/cucumber-reporting/branch/master/graph/badge.svg)](https://codecov.io/github/damianszczepanik/cucumber-reporting)
-[![Sonarqube Status](https://sonarcloud.io/api/project_badges/measure?project=damianszczepanik_cucumber-reporting&metric=alert_status)](https://sonarcloud.io/dashboard?id=damianszczepanik_cucumber-reporting)
-[![Codacy](https://api.codacy.com/project/badge/grade/7f206992ed364f0896490057fdbdaa2e)](https://app.codacy.com/gh/damianszczepanik/cucumber-reporting/)
-[![Codebeat](https://codebeat.co/badges/cb097d5a-280a-4867-8120-d6f03a874861)](https://codebeat.co/projects/github-com-damianszczepanik-cucumber-reporting)
-[![Vulnerabilities](https://snyk.io/test/github/damianszczepanik/cucumber-reporting/badge.svg)](https://snyk.io/org/damianszczepanik/project/6a2fe301-d56c-49e7-8c78-cd3ff09c3828)
+# Project
 
-[![Maven Central](https://img.shields.io/maven-central/v/net.masterthought/cucumber-reporting.svg)](http://search.maven.org/#search|gav|1|g%3A%22net.masterthought%22%20AND%20a%3A%22cucumber-reporting%22)
-[![License](https://img.shields.io/badge/license-GNU%20LGPL%20v2.1-blue.svg)](https://raw.githubusercontent.com/damianszczepanik/cucumber-reporting/master/LICENCE)
-[![Contributors](https://img.shields.io/github/contributors/damianszczepanik/cucumber-reporting.svg)](https://github.com/damianszczepanik/cucumber-reporting/graphs/contributors)
+This project is an adaptation of [cucumber-reporting](https://github.com/damianszczepanik/cucumber-reporting) library.
+
+Main changes:
+
+1) interpretation of the test results in the report for the projects which heavily use junit assumptions to determine if the test can be continued in the current conditions.
+   Thus skipped is not interpreted as a failure for Feature
+    - Skipped Step: not executed due to failed assumption
+    - Skipped Scenario: not executed as pre-conditions were not met to start or continue the test due to failed assumption which is not a defect
+    - Skipped Feature: has more skipped scenarios then passed scenarios and does not have failed scenarios
+2) Added Skipped Page report
+3) Removed Steps from Features Overview for easier reading
+4) No feature to set non-failing statuses as the feature is not failing when having skipped scenarios. It is dynamically decided if the feature is Skipped or Passed based on the ratio of skipped/failed scenarios
 
 # Publish pretty [cucumber](https://cucumber.io/) reports
 
@@ -26,84 +28,110 @@ This project allows you to publish the results of a cucumber run as pretty html 
 ## Install
 
 Add a maven dependency to your pom
+
 ```xml
 <dependency>
-    <groupId>net.masterthought</groupId>
-    <artifactId>cucumber-reporting</artifactId>
-    <version>(check version above)</version>
+   <groupId>tech.paranoidandroid</groupId>
+   <artifactId>cucumber-html-reporting</artifactId>
+   <version>1.0.0</version>
+   <scope>test</scope>
 </dependency>
 ```
 
-Read this if you need further [detailed configuration](https://github.com/jenkinsci/cucumber-reports-plugin/wiki/Detailed-Configuration) instructions for using the Jenkins version of this project
-
 ## Usage
-```Java
-File reportOutputDirectory = new File("target");
-List<String> jsonFiles = new ArrayList<>();
-jsonFiles.add("cucumber-report-1.json");
-jsonFiles.add("cucumber-report-2.json");
 
-String buildNumber = "1";
-String projectName = "cucumberProject";
+In RunCucumberTest class
 
-Configuration configuration = new Configuration(reportOutputDirectory, projectName);
-// optional configuration - check javadoc for details
-configuration.addPresentationModes(PresentationMode.RUN_WITH_JENKINS);
-// do not make scenario failed when step has status SKIPPED
-configuration.setNotFailingStatuses(Collections.singleton(Status.SKIPPED));
-configuration.setBuildNumber(buildNumber);
-// addidtional metadata presented on main page
-configuration.addClassifications("Platform", "Windows");
-configuration.addClassifications("Browser", "Firefox");
-configuration.addClassifications("Branch", "release/1.0");
+cucumber-html-reporting needs cucumber results json file produced by cucumber [built-in plugin](https://cucumber.io/docs/cucumber/reporting/?lang=java)
 
-// optionally add metadata presented on main page via properties file
-List<String> classificationFiles = new ArrayList<>();
-classificationFiles.add("properties-1.properties");
-classificationFiles.add("properties-2.properties");
-configuration.addClassificationFiles(classificationFiles);
-
-// optionally specify qualifiers for each of the report json files
-        configuration.addPresentationModes(PresentationMode.PARALLEL_TESTING);
-        configuration.setQualifier("cucumber-report-1","First report");
-        configuration.setQualifier("cucumber-report-2","Second report");
-
-        ReportBuilder reportBuilder=new ReportBuilder(jsonFiles,configuration);
-        Reportable result=reportBuilder.generateReports();
-// and here validate 'result' to decide what to do if report has failed
 ```
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = "src/test/resources",
+
+        plugin = {
+                "json:target/cucumber/cucumber.json"
+        }
+)
+
+```
+
+```
+import io.cucumber.junit.CucumberOptions;
+import org.junit.AfterClass;
+import org.junit.runner.RunWith;
+
+import java.io.File;
+
+import tech.paranoidandroid.cucumber.Configuration;
+import tech.paranoidandroid.cucumber.ReportBuilder;
+import tech.paranoidandroid.cucumber.presentation.PresentationMode;
+import tech.paranoidandroid.cucumber.sorting.SortingMethod;
+
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = "src/test/resources",
+
+        plugin = {
+                "json:target/cucumber/cucumber.json"
+        }
+)
+
+public class RunCucumberTest {
+  
+   public static void generateCustomReport(){
+        File reportOutputDirectory = new File("target/cucumber/cucumber-html-report");
+        List<String> jsonFiles = new ArrayList<>();
+        jsonFiles.add("target/cucumber/cucumber.json");
+
+        String projectName = "project_name";
+        // If the project contains CI yaml file with version to be deployed, it can be useful to pass it here
+        String buildNumber = "tested_version";
+
+        Configuration configuration = new Configuration(reportOutputDirectory, projectName);
+        configuration.setBuildNumber(buildNumber);
+
+        configuration.setSortingMethod(SortingMethod.NATURAL);
+        configuration.addPresentationModes(PresentationMode.EXPAND_ALL_STEPS);
+
+        ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
+        reportBuilder.generateReports();
+    }
+    
+    @AfterClass
+    public static void stopExecution() {
+        generateCustomReport();
+    }
+}
+```
+
 There is a feature overview page:
 
-![feature overview page](./.README/feature-overview.png)
 
-And there are also feature specific results pages:
+![feature overview page](./.README/full-page.png)
 
-![feature specific page passing](./.README/feature-passed.png)
+In the report table the new logic is demonstrated:
 
-And useful information for failures:
+Features are not failed, if they don't have failed scenarios. Features are skipped only if they contain more skipped scenarios, then passed scenarios, and don't have failed scenarios.
+At least one failed step makes scenario Failed, at least one failed scenario makes feature Failed.
 
-![feature specific page passing](./.README/feature-failed.png)
+![Features overview table](./.README/feature-overview-table.png)
 
-If you have tags in your cucumber features you can see a tag overview:
+Results pages per feature:
 
-![Tag overview](./.README/tag-overview.png)
+![feature specific report passing](./.README/feature-report-passed.png)
+
+![feature specific report skipped](./.README/feature-report-skipped.png)
+
+![feature specific report failed](./.README/feature-report-failed.png)
+
+Tags overview page shows how many scenarios and features are covered by tag and the results.
+
+![Tag overview](./.README/tags-report.png)
 
 And you can drill down into tag specific reports:
 
-![Tag report](./.README/tag-report.png)
+![Tag report](./.README/report-per-tag.png)
 
-![Trends report](./.README/trends.png)
-
-## Continuous delivery and live demo
-
-You can play with the [live demo](http://damianszczepanik.github.io/cucumber-html-reports/overview-features.html) report before you decide if this is worth to use. Report is generated every time new change is merged into the main development branch so it always refers to the most recent version of this project. Sample configuration is provided by [sample code](./src/test/java/LiveDemoTest.java).
-
-## Code quality
-
-Once you developed your new feature or improvement you should test it by providing several unit or integration tests.
-
-![codecov.io](https://codecov.io/gh/damianszczepanik/cucumber-reporting/branch/master/graphs/tree.svg)
-
-## Contribution
-
-Interested in contributing to the cucumber-reporting?  Great!  Start [here](https://github.com/damianszczepanik/cucumber-reporting).
+![Trends report](./.README/trends-report.png)
