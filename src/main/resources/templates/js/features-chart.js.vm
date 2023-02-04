@@ -4,16 +4,20 @@ $(document).ready(function() {
         datasets: [{
             data: [
                    $report_summary.getPassedFeatures(),
-                   $report_summary.getFailedFeatures()
+                   $report_summary.getFailedFeatures(),
+                   $report_summary.getSkippedFeatures()
+
                ],
                backgroundColor: [
                 "#00B000",
-                "#FF3030"
+                "#FF3030",
+                "#88AAFF"
             ]
         }],
         labels: [
             "Passed",
-            "Failed"
+            "Failed",
+            "Skipped"
         ]
     };
 

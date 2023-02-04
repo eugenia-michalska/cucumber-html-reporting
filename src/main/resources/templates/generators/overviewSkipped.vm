@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  #parse("/templates/headers.vm")
+  #includeTitle("Skipped Overview")
+</head>
+
+<body>
+
+#includeNavigation("skipped")
+
+#includeReportInfo()
+
+#includeLead("Skipped Overview", "The following summary displays scenarios that were skipped.")
+
+#if(!$skipped.isEmpty())
+  #includeExpandingButtons()
+#end
+
+<div class="container-fluid" id="report">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
+      #if($skipped.isEmpty())
+        <p>You have no skipped scenarios in your Cucumber report</p>
+      #else
+        <div class="elements">
+          #foreach($element in $skipped)
+            #includeElement($element, true)
+          #end
+        </div>
+      #end
+
+    </div>
+  </div>
+</div>
+
+#if(!$skipped.isEmpty())
+  #includeExpandingButtons()
+#end
+<br/>
+
+#include("/templates/footer.vm")
+
+</body>
+</html>

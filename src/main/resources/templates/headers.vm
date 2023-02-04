@@ -12,8 +12,13 @@
 
 #parse("/templates/macros/report/expandAllButtons.vm")
 #parse("/templates/macros/report/reportTable.vm")
+#parse("/templates/macros/report/reportTableFeature.vm")
+#parse("/templates/macros/report/reportTableTag.vm")
 #parse("/templates/macros/report/reportHeader.vm")
+#parse("/templates/macros/report/reportHeaderFeature.vm")
+#parse("/templates/macros/report/reportHeaderTag.vm")
 #parse("/templates/macros/report/statsTable.vm")
+#parse("/templates/macros/report/statsTableTags.vm")
 
 #parse("/templates/macros/json/brief.vm")
 #parse("/templates/macros/json/docstring.vm")

@@ -5,7 +5,7 @@
     <tr>
       <th>Project</th>
       #if($build_number)
-        <th>Number</th>
+        <th>Version</th>
       #end
       <th>Date</th>
     </tr>

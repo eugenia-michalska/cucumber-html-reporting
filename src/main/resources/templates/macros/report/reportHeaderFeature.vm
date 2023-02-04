@@ -1,4 +1,4 @@
-#macro(includeReportHeader, $table_key)
+#macro(includeReportHeaderFeature)
 
 <thead>
   <tr class="header dont-sort">
@@ -7,14 +7,20 @@
     #else
       <th></th>
     #end
+    <th colspan="4">Steps</th>
     <th colspan="4">Scenarios</th>
-    <th colspan="2">Features</th>
+    <th colspan="2">Feature Stats</th>
   </tr>
   <tr>
-    <th>$table_key</th>
+    <th>Feature</th>
     #if ($parallel_testing)
       <th>Qualifier</th>
     #end
+    <th class="passed">Passed</th>
+    <th class="failed">Failed</th>
+    <th class="skipped">Skipped</th>
+    <th class="total">Total</th>
+
     <th class="passed">Passed</th>
     <th class="failed">Failed</th>
     <th class="skipped">Skipped</th>

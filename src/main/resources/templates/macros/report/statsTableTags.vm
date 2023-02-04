@@ -1,0 +1,26 @@
+#macro(includeStatsTableTags, $table_key, $items, $report_summary, $tag)
+
+<table id="tablesorter" class="stats-table table-hover">
+  #includeReportHeader($table_key)
+
+  <tbody>
+    #foreach($item in $items)
+      <tr>
+        <td class="tagname"><a href="$item.getReportFileName()">$item.getName()</a></td>
+        #if ($parallel_testing)
+          <td>$item.getQualifier()</td>
+        #end
+
+        <td #if ($item.getPassedScenarios() > 0) class="passed"    #end>$item.getPassedScenarios()</td>
+        <td #if ($item.getFailedScenarios() > 0) class="failed"    #end>$item.getFailedScenarios()</td>
+        <td #if ($item.getSkippedScenarios() > 0) class="skipped"    #end>$item.getSkippedScenarios()</td>
+        <td class="total">$item.getScenarios()</td>
+
+        <td class="duration" data-value="$item.getDuration()">$item.getFormattedDuration()</td>
+        <td class="$item.getStatus().getRawName()">$item.getStatus().getLabel()</td>
+      </tr>
+    #end
+  </tbody>
+</table>
+
+#end

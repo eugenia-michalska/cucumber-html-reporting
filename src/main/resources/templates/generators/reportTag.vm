@@ -12,7 +12,7 @@
 
 #includeLead("Tag Report")
 
-#includeReportTable("Tag", $tag, false)
+#includeReportTableTag($tag, true)
 
 #includeExpandingButtons()
 

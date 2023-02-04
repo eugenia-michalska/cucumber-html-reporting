@@ -5,24 +5,18 @@ $(document).ready(function() {
             data: [
                 $report_summary.getPassedSteps(),
                 $report_summary.getFailedSteps(),
-                $report_summary.getSkippedSteps(),
-                $report_summary.getPendingSteps(),
-                $report_summary.getUndefinedSteps()
+                $report_summary.getSkippedSteps()
             ],
             backgroundColor: [
                 "#00B000",
                 "#FF3030",
-                "#88AAFF",
-                "#F5F28F",
-                "#F5B975"
+                "#88AAFF"
             ]
         }],
         labels: [
             "Passed",
             "Failed",
-            "Skipped",
-            "Pending",
-            "Undefined"
+            "Skipped"
         ]
     };
 

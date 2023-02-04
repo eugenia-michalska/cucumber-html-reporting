@@ -4,15 +4,15 @@ $(document).ready(function() {
 
     var failedFeatures = #numberArray($failedFeatures);
     var passedFeatures = #numberArray($passedFeatures);
+    var skippedFeatures = #numberArray($skippedFeatures);
 
     var failedScenarios = #numberArray($failedScenarios);
     var passedScenarios = #numberArray($passedScenarios);
+    var skippedScenarios = #numberArray($skippedScenarios);
 
     var passedSteps = #numberArray($passedSteps);
     var failedSteps = #numberArray($failedSteps);
     var skippedSteps = #numberArray($skippedSteps);
-    var pendingSteps = #numberArray($pendingSteps);
-    var undefinedSteps = #numberArray($undefinedSteps);
 
     var durations = #numberArray($durations);
 
@@ -64,6 +64,28 @@ $(document).ready(function() {
                 pointRadius: 1,
                 pointHitRadius: 10,
                 spanGaps: false
+            },
+            {
+                label: "Skipped",
+                data: skippedFeatures,
+                fill: true,
+                lineTension: 0.1,
+                backgroundColor: "#8AF", // same as skipped class in css file
+                borderColor: "rgba(192,0,0,1)",
+                borderCapStyle: "butt",
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: "miter",
+                pointBorderColor: "rgba(0,0,0,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 5,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                spanGaps: false,
             }
         ]
     };
@@ -132,6 +154,28 @@ $(document).ready(function() {
                 pointRadius: 1,
                 pointHitRadius: 10,
                 spanGaps: false
+            },
+            {
+                label: "Skipped",
+                data: skippedScenarios,
+                fill: true,
+                lineTension: 0.1,
+                backgroundColor: "#8AF", // same as passed class in css file
+                borderColor: "rgba(0,192,192,1)",
+                borderCapStyle: "butt",
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: "miter",
+                pointBorderColor: "rgba(0,0,0,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 5,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                spanGaps: false
             }
         ]
     };
@@ -184,48 +228,6 @@ $(document).ready(function() {
                 fill: true,
                 lineTension: 0.1,
                 backgroundColor: "#8AF",
-                borderCapStyle: "butt",
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: "miter",
-                pointBorderColor: "rgba(0,0,0,1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 5,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                spanGaps: false
-            },
-            {
-                label: "Pending",
-                data: pendingSteps,
-                fill: true,
-                lineTension: 0.1,
-                backgroundColor: "#F5F28F",
-                borderCapStyle: "butt",
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: "miter",
-                pointBorderColor: "rgba(0,0,0,1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 5,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                spanGaps: false
-            },
-            {
-                label: "Undefined",
-                data: undefinedSteps,
-                fill: true,
-                lineTension: 0.1,
-                backgroundColor: "#F5B975",
                 borderCapStyle: "butt",
                 borderDash: [],
                 borderDashOffset: 0.0,

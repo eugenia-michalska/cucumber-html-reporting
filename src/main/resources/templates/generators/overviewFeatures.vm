@@ -1,78 +1,136 @@
 <!DOCTYPE html>
 <html>
-<head>
-  #parse("/templates/headers.vm")
-  #includeTitle("Features Overview")
+   <head>
+      #parse("/templates/headers.vm")
+      #includeTitle("Features Overview")
 
-  <script>
-  #parse("/templates/js/steps-chart.js.vm")
-  #parse("/templates/js/scenarios-chart.js.vm")
-  #parse("/templates/js/features-chart.js.vm")
-  </script>
-</head>
+      <script>
+        #parse("/templates/js/steps-chart.js.vm")
+        #parse("/templates/js/scenarios-chart.js.vm")
+        #parse("/templates/js/features-chart.js.vm")
+      </script>
+   </head>
+   <body>
+      #includeNavigation("features")
+      #includeReportInfo()
+      #includeLead("Features Overview", "Test results statistics table per feature")
 
-<body>
+      #if(!$all_features.isEmpty())
+        <div class="container-fluid" id="charts">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <div id="featureChartCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                  <li data-target="#featureChartCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#featureChartCarousel" data-slide-to="1"></li>
+                  <li data-target="#featureChartCarousel" data-slide-to="2"></li>
+                </ol>
 
-#includeNavigation("features")
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                  <div class="item active">
+                    <canvas id="features-chart" height="120"></canvas>
+                  </div>
 
-#includeReportInfo()
+                  <div class="item">
+                    <canvas id="scenarios-chart" height="120"></canvas>
+                  </div>
 
-#includeLead("Features Statistics", "The following graphs show passing and failing statistics for features")
+                  <div class="item">
+                    <canvas id="steps-chart" height="120"></canvas>
+                  </div>
+                </div>
 
-
-#if(!$all_features.isEmpty())
-  <div class="container-fluid" id="charts">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <div id="featureChartCarousel" class="carousel slide" data-ride="carousel">
-          <!-- Indicators -->
-          <ol class="carousel-indicators">
-            <li data-target="#featureChartCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#featureChartCarousel" data-slide-to="1"></li>
-            <li data-target="#featureChartCarousel" data-slide-to="2"></li>
-          </ol>
-
-          <!-- Wrapper for slides -->
-          <div class="carousel-inner" role="listbox">
-            <div class="item active">
-              <canvas id="features-chart" height="120"></canvas>
-            </div>
-
-            <div class="item">
-              <canvas id="scenarios-chart" height="120"></canvas>
-            </div>
-
-            <div class="item">
-              <canvas id="steps-chart" height="120"></canvas>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#featureChartCarousel" role="button" data-slide="prev">
+                  <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#featureChartCarousel" role="button" data-slide="next">
+                  <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
             </div>
           </div>
-
-          <!-- Left and right controls -->
-          <a class="left carousel-control" href="#featureChartCarousel" role="button" data-slide="prev">
-            <i class="fa fa-chevron-left" aria-hidden="true"></i>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="right carousel-control" href="#featureChartCarousel" role="button" data-slide="next">
-            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-            <span class="sr-only">Next</span>
-          </a>
         </div>
+        <br/>
+      #end
+      <p>&nbsp;</p>
+      <div class="container mt-5">
+         <div class="col-md-10">
+            <div class="rounded">
+               <details close disabled id="example-details" role="link">
+                  <summary style="cursor: pointer; text-decoration: underline;">Show statuses definitions</summary>
+                  <table class="table table-borderedless" id="classifications">
+                     <tbody class="table-body">
+                        <tr>
+                           <td><span class="badge badge-info">Skipped</span></td>
+                           <td colspan="2" <p
+                           <td style="white-space: nowrap;">not executed due to failed assumption</p></td>
+                        </tr>
+                        <tr class="collapseCategory collapse show">
+                           <td style="width: 5%;" class="text-center" colspan="1"><i class="fa fa-info-circle"></i></td>
+                           <td style="width: 25%;" colspan="2"
+                           <td style="white-space: nowrap;">Skipped Scenario</td>
+                           <td style="width: 75%; max-height: 2.2em;" colspan="5">not executed as pre-conditions were not met to start or continue the test due to failed assumption which is not a defect</td>
+                        </tr>
+                        <tr class="collapseCategory collapse show">
+                           <td style="width: 5%;" class="text-center" colspan="1"><i class="fa fa-info-circle"></i></td>
+                           <td style="width: 25%;" colspan="2"
+                           <td style="white-space: nowrap;" >Skipped Feature</td>
+                           <td style="width: 75%;" colspan="3" style="max-height: 2.2em;">has more skipped scenarios then passed scenarios and does not have failed scenarios</td>
+                        </tr>
+                        <tr>
+                           <td><span class="badge badge-info">Failed</span></td>
+                           <td style="width:40%; colspan="5"
+                           <p>action step result didn't meet the acceptance criteria</p>
+                           </td>
+                        </tr>
+                        <tr class="collapseCategory collapse show">
+                           <td style="width: 5%;" class="text-center" colspan="1"><i class="fa fa-info-circle"></i></td>
+                           <td style="width: 25%;" colspan="2"
+                           <td style="white-space: nowrap;">Failed Scenario</td>
+                           <td style="width: 75%;" colspan="3" style="text-align: right;">at least one step is failed</td>
+                        </tr>
+                        <tr class="collapseCategory collapse show" >
+                           <td style="width: 5%;" class="text-center" colspan="1"><i class="fa fa-info-circle"></i></td>
+                           <td style="width: 25%;" colspan="2"
+                           <td style="white-space: nowrap;">Failed Feature</td>
+                           <td style="width: 75%;" colspan="3" style="text-align: right;">at least one scenario is failed</td>
+                        </tr>
+                        <tr>
+                           <td><span class="badge badge-info">Passed</span></td>
+                           <td style="width:40%; "colspan="5"
+                           <p style="white-space: nowrap;">action step result met the acceptance criteria</p>
+                           </td>
+                        </tr>
+                        <tr class="collapseCategory collapse show">
+                           <td style="width: 5%;" class="text-center" colspan="1"><i class="fa fa-info-circle"></i></td>
+                           <td style="width: 25%;" colspan="2" style="white-space: nowrap;">Passed Scenario</td>
+                           <td style="width: 75%;" colspan="3" style="text-align: right;">all steps passed</td>
+                        </tr>
+                        <tr class="collapseCategory collapse show">
+                           <td style="width: 5%;" class="text-center" colspan="1"><i class="fa fa-info-circle"></i></td>
+                           <td style="width: 25%;" colspan="2"
+                           <td style="white-space: nowrap;">Passed Feature</td>
+                           <td style="width: 75%;" colspan="3" style="text-align: right;">all scenarios passed</td>
+                        </tr>
+                     </tbody>
+                  </table>
+            </div>
+            </details>
+         </div>
       </div>
-    </div>
-  </div>
-  <br/>
-#end
-
-
-<div class="container-fluid" id="report">
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      #includeStatsTable("Feature", $all_features, $report_summary)
-    </div>
-  </div>
-</div>
-
-#include("/templates/footer.vm")
-
-</body>
+      <p>&nbsp;</p>
+      <div class="container-fluid" id="report">
+         <div class="row">
+            <div class="col-md-9 col-md-offset-1">
+               #includeStatsTable("Feature", $all_features, $report_summary)
+            </div>
+         </div>
+      </div>
+      #include("/templates/footer.vm")
+   </body>
 </html>

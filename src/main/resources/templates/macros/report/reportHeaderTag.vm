@@ -1,4 +1,4 @@
-#macro(includeReportHeader, $table_key)
+#macro(includeReportHeaderTag)
 
 <thead>
   <tr class="header dont-sort">
@@ -8,13 +8,14 @@
       <th></th>
     #end
     <th colspan="4">Scenarios</th>
-    <th colspan="2">Features</th>
+    <th colspan="2">Tag Stats</th>
   </tr>
   <tr>
-    <th>$table_key</th>
+    <th>Tag</th>
     #if ($parallel_testing)
       <th>Qualifier</th>
     #end
+
     <th class="passed">Passed</th>
     <th class="failed">Failed</th>
     <th class="skipped">Skipped</th>

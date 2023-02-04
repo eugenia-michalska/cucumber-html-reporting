@@ -1,20 +1,15 @@
-#macro(includeReportTable, $table_key, $reportable)
+#macro(includeReportTableTag, $reportable)
 
 <div class="container-fluid" id="report">
   <div class="row">
     <div class="col-md-7 col-md-offset-1">
       <table class="stats-table">
 
-        #includeReportHeader($table_key)
+        #includeReportHeaderTag()
 
         <tbody>
         <tr>
           <td class="tagname">$reportable.getName()</td>
-          <td #if ($reportable.getPassedSteps() != 0)     class="passed"    #end>$reportable.getPassedSteps()</td>
-          <td #if ($reportable.getFailedSteps() != 0)     class="failed"    #end>$reportable.getFailedSteps()</td>
-          <td #if ($reportable.getSkippedSteps() != 0)    class="skipped"   #end>$reportable.getSkippedSteps()</td>
-          <td class="total">$reportable.getSteps()</td>
-
           <td #if ($reportable.getPassedScenarios() != 0) class="passed"    #end>$reportable.getPassedScenarios()</td>
           <td #if ($reportable.getFailedScenarios() != 0) class="failed"    #end>$reportable.getFailedScenarios()</td>
           <td #if ($reportable.getSkippedScenarios() != 0) class="skipped"  #end>$reportable.getSkippedScenarios()</td>
