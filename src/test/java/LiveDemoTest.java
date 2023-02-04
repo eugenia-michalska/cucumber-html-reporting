@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import net.masterthought.cucumber.Configuration;
-import net.masterthought.cucumber.ReportBuilder;
-import net.masterthought.cucumber.presentation.PresentationMode;
-import net.masterthought.cucumber.sorting.SortingMethod;
+import tech.paranoidandroid.cucumber.Configuration;
+import tech.paranoidandroid.cucumber.ReportBuilder;
+import tech.paranoidandroid.cucumber.presentation.PresentationMode;
+import tech.paranoidandroid.cucumber.sorting.SortingMethod;
 
 /**
  * @author Damian Szczepanik (damianszczepanik@github)
